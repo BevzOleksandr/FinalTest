@@ -71,7 +71,7 @@ test('Change language and log in from another account', async ({page}) => {
 
     await homePage.propertiesBtn().click();
     const siteLanguage = await propertiesPage.propertiesHeader().textContent();
-    const firstAccountSiteLanguageResult = propertiesPage.doFirstAccountEnglish(siteLanguage, page)
+    const firstAccountSiteLanguageResult = await propertiesPage.doFirstAccountEnglish(siteLanguage, page)
 
     await propertiesPage.logOutBtn().click();
     await homePage.loginBtn().click();

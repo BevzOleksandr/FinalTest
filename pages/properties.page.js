@@ -59,9 +59,9 @@ export default class PropertiesPage {
     }
 
     async doFirstAccountEnglish(siteLanguage, page){
-       let firstAccountSiteLanguageResult = "";
         if(siteLanguage === "Preferences"){
-            return firstAccountSiteLanguageResult = siteLanguage;
+            const firstAccountSiteLanguageResult = siteLanguage;
+            return firstAccountSiteLanguageResult;
         } else{
             await this.languageSettingsBtn().click();
             const isLanguageBtnPresent = await !!this.languageSwitchEN();
@@ -76,7 +76,8 @@ export default class PropertiesPage {
             }
     
             await page.reload();
-            return firstAccountSiteLanguageResult = await this.propertiesHeader().textContent();
+            const firstAccountSiteLanguageResult = await this.propertiesHeader().textContent();
+            return firstAccountSiteLanguageResult;
         }
     }
 }
