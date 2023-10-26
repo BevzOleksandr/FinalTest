@@ -21,4 +21,4 @@ ENV PLAYWRIGHT_BROWSERS chromium,firefox,webkit
 ENV PLAYWRIGHT_HEADLESS 1
 ENV PLAYWRIGHT_TEST_DIR /app/tests
 
-CMD ["npx", "playwright", "test", "--output=docker-results"]
+CMD ["npx", "playwright", "test", "--output=playwright-report"]
