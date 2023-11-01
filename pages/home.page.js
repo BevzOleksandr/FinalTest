@@ -1,16 +1,11 @@
-export default class HomePage {
+exports.HomePage = class HomePage {
     constructor(page){
         this.page = page;
+
+        //Locators
+        this.loginBtn = page.locator("//li[@id='pt-login']");
+        this.propertiesBtn = page.locator("//li[@id='pt-preferences']");
     }
-
-    //Locators
-    loginBtn = () => this.page.locator("//li[@id='pt-login']");
-    propertiesBtn = () => this.page.locator("//li[@id='pt-preferences']");
-
 
     //Actions
-    startingTestRoad = async() => {
-    await this.page.goto("https://uk.wikipedia.org/wiki/"); 
-    await this.loginBtn().click();
-    }
 }
