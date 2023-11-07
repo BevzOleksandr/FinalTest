@@ -3,9 +3,9 @@ exports.LoginPage = class LoginPage {
         this.page = page;
 
         //Locators
-        this.loginInputField = page.locator("//input[@id='wpName1']");
-        this.passwordInputField = page.locator("//input[@id='wpPassword1']");
-        this.enterBtn = page.locator("//button[@id='wpLoginAttempt']");
+        this.loginInputField = page.locator("input#wpName1");
+        this.passwordInputField = page.locator("input#wpPassword1");
+        this.enterBtn = page.locator("button#wpLoginAttempt");
     }
 
     //Actions

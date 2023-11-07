@@ -3,8 +3,8 @@ exports.HomePage = class HomePage {
         this.page = page;
 
         //Locators
-        this.loginBtn = page.locator("//li[@id='pt-login']");
-        this.propertiesBtn = page.locator("//li[@id='pt-preferences']");
+        this.loginBtn = page.locator("li#pt-login");
+        this.propertiesBtn = page.locator("li#pt-preferences");
     }
 
     //Actions

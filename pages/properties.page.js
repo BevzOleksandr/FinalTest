@@ -4,16 +4,16 @@ exports.PropertiesPage = class PropertiesPage {
         this.page = page;
     
         //Locators
-        this.languageSettingsBtn = page.locator("//button[@class='uls-settings-trigger']");
-        this.languageSwitchUK = page.locator("//button[@lang='uk']");
-        this.languageSwitchEN = page.locator("//button[@lang='en']");
-        this.languageSwitchElse = page.locator("//button[@class='uls-more-languages mw-ui-button webfonts-changed']");
-        this.languageInputField = page.locator("//input[@class='uls-filterinput uls-languagefilter noime languagefilter']");
-        this.languageAfterInputBtnUK = page.locator("//a[@lang='uk']");
-        this.languageAfterInputBtnEN = page.locator("//a[@lang='en']");
-        this.languageAcceptBtn = page.locator("//button[@data-i18n='ext-uls-language-settings-apply']");
-        this.propertiesHeader = page.locator("//h1[@id='firstHeading']");
-        this.logOutBtn = page.locator("//li[@id='pt-logout']");
+        this.languageSettingsBtn = page.locator("button.uls-settings-trigger");
+        this.languageSwitchUK = page.locator("button[lang='uk']");
+        this.languageSwitchEN = page.locator("button[lang='en']");
+        this.languageSwitchElse = page.locator("button.uls-more-languages.mw-ui-button.webfonts-changed");
+        this.languageInputField = page.locator("input.uls-filterinput.uls-languagefilter.noime.languagefilter");
+        this.languageAfterInputBtnUK = page.locator("a[lang='uk']");
+        this.languageAfterInputBtnEN = page.locator("a[lang='en']");
+        this.languageAcceptBtn = page.locator("button[data-i18n='ext-uls-language-settings-apply']");
+        this.propertiesHeader = page.locator("h1#firstHeading");
+        this.logOutBtn = page.locator("li#pt-logout");
     }
     //Actions
     

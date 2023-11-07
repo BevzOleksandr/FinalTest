@@ -14,12 +14,14 @@ test.describe('Language tests', () => {
 
     test.beforeEach(async ({browser}) => {
     page = await browser.newPage();
+    const homePage = new HomePage(page);
     await page.goto("https://uk.wikipedia.org/wiki/");
-    await page.locator("//li[@id='pt-login']").click();
+    await homePage.loginBtn.click();
    })
     
    test.afterEach(async() => {
-    await page.locator("//li[@id='pt-logout']").click();
+    const propertiesPage = new PropertiesPage(page);
+    await propertiesPage.logOutBtn.click();
    })
 
     test('Change language', async () => {
