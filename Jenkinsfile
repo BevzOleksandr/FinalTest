@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'playwright-autotests'
-        GIT_TOOL = tool 'GIT' // Specify your Git tool name here
+        GIT_TOOL = 'GitTool' // Specify your Git tool name here
     }
 
     stages {
