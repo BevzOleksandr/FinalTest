@@ -52,7 +52,10 @@ pipeline {
         always {
             // Завжди видаляти Docker контейнер після завершення
             cleanWs()
-            sh "docker rm -f my-container"
+            script {
+                // Видалення Docker контейнера після завершення
+                sh "docker rm -f my-container"
+            }
         }
     }
 }
