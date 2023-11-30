@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'playwright-autotests'
+        GIT_TOOL = tool 'GIT' // Specify your Git tool name here
     }
 
     stages {
@@ -10,7 +11,7 @@ pipeline {
             steps {
                 script {
                     // Checkout SCM with Git credentials
-                    checkout scm
+                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/BevzOleksandr/FinalTest', credentialsId: 'your-git-credentials']]])
                 }
             }
         }
@@ -19,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Specify the Git tool and credentials
-                    def gitTool = tool 'GIT'
+                    def gitTool = tool GIT_TOOL
                     withEnv(["GIT_HOME=${tool(gitTool).home}", "PATH=${tool(gitTool).home}/bin:${env.PATH}"]) {
                         // Create Docker container
                         sh "docker build -t ${DOCKER_IMAGE} ."
