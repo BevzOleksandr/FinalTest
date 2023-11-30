@@ -16,13 +16,17 @@ pipeline {
         }
 
         stage('Run Docker Container') {
-            steps {
-                script {
-                    // Запуск Docker контейнера
+        steps {
+            script {
+                // Запуск Docker контейнера
+                if (isUnix()) {
                     sh "docker run -d --name my-container ${DOCKER_IMAGE}"
+                } else {
+                    bat "start /B docker run -d --name my-container ${DOCKER_IMAGE}"
                 }
             }
         }
+    }
 
         stage('Run Playwright Tests') {
             steps {
