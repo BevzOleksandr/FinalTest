@@ -1,51 +1,54 @@
-// pipeline{
-//     agent{
-//         docker{
-//             image 'mcr.microsoft.com/playwright:v1.17.2-focal'
-//         }
-//     }
-//     stages{
-//         stage('install playwright'){
-//             steps{
-//                 sh '''
-//                     npm i -D @playwright/test
-//                     npx playwright install
-//                 '''
-//             }
-//         }
-//         stage('help'){
-//             steps{
-//                 sh 'npx playwright test --help'
-//             }
-//         }
-//         stage('test'){
-//             steps{
-//                 sh '''
-//                     npx playwright test --list
-//                     npx playwright test
-//                 '''
-//             }
-//         }
-//     }
-// }
-
 pipeline {
     agent any
+
+    environment {
+        DOCKER_IMAGE = 'playwright-autotests'
+    }
+
     stages {
-        stage('PULL') {
+        stage('Build Docker Image') {
             steps {
-                sh 'docker pull mcr.microsoft.com/playwright:v1.39.0-jammy'
+                script {
+                    // Створення Docker контейнера
+                    sh "docker build -t ${DOCKER_IMAGE} ."
+                }
             }
         }
-        stage('RUN') {
+
+        stage('Run Docker Container') {
             steps {
-                sh 'docker run -v C:/Users/retro/Downloads/TestWork/playwright-reports -it playwright-autotests'
+                script {
+                    // Запуск Docker контейнера
+                    sh "docker run -d --name my-container ${DOCKER_IMAGE}"
+                }
             }
         }
-        stage('Report'){
-            steps{
-                sh 'npx playwright show-report'
+
+        stage('Run Playwright Tests') {
+            steps {
+                script {
+                    // Виконання тестів Playwright в Docker контейнері
+                    sh "docker exec my-container npm install"
+                    sh "docker exec my-container npm test"
+                }
             }
+        }
+
+        stage('Generate Playwright Report') {
+            steps {
+                script {
+                    // Збір результатів тестів та генерація звіту
+                    archiveArtifacts artifacts: '/playwright-report', allowEmptyArchive: true
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Завжди видаляти Docker контейнер після завершення
+            cleanWs()
+            sh "docker rm -f my-container"
         }
     }
 }
