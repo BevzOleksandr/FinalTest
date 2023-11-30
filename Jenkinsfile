@@ -6,32 +6,45 @@ pipeline {
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Checkout SCM with Git credentials
+                    checkout scm
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Створення Docker контейнера
-                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    // Specify the Git tool and credentials
+                    def gitTool = tool 'GIT'
+                    withEnv(["GIT_HOME=${tool(gitTool).home}", "PATH=${tool(gitTool).home}/bin:${env.PATH}"]) {
+                        // Create Docker container
+                        sh "docker build -t ${DOCKER_IMAGE} ."
+                    }
                 }
             }
         }
 
         stage('Run Docker Container') {
-        steps {
-            script {
-                // Запуск Docker контейнера
-                if (isUnix()) {
-                    sh "docker run -d --name my-container ${DOCKER_IMAGE}"
-                } else {
-                    bat "start /B docker run -d --name my-container ${DOCKER_IMAGE}"
+            steps {
+                script {
+                    // Run Docker container
+                    if (isUnix()) {
+                        sh "docker run -d --name my-container ${DOCKER_IMAGE}"
+                    } else {
+                        bat "start /B docker run -d --name my-container ${DOCKER_IMAGE}"
+                    }
                 }
             }
         }
-    }
 
         stage('Run Playwright Tests') {
             steps {
                 script {
-                    // Виконання тестів Playwright в Docker контейнері
+                    // Execute Playwright tests in Docker container
                     sh "docker exec my-container npm install"
                     sh "docker exec my-container npm test"
                 }
@@ -41,8 +54,8 @@ pipeline {
         stage('Generate Playwright Report') {
             steps {
                 script {
-                    // Збір результатів тестів та генерація звіту
-                    archiveArtifacts artifacts: '/playwright-report', allowEmptyArchive: true
+                    // Archive test results for later reference
+                    archiveArtifacts artifacts: '**/test-results.xml', allowEmptyArchive: true
                 }
             }
         }
@@ -50,10 +63,9 @@ pipeline {
 
     post {
         always {
-            // Завжди видаляти Docker контейнер після завершення
+            // Clean workspace and remove Docker container after completion
             cleanWs()
             script {
-                // Видалення Docker контейнера після завершення
                 sh "docker rm -f my-container"
             }
         }
