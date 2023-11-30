@@ -39,7 +39,7 @@ pipeline {
         }
         stage('RUN') {
             steps {
-                sh 'docker run -v C:\Users\retro\Downloads\TestWork\playwright-reports -it playwright-autotests'
+                sh 'docker run -v C:/Users/retro/Downloads/TestWork/playwright-reports -it playwright-autotests'
             }
         }
         stage('Report'){
